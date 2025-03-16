@@ -16,6 +16,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-
   liquibase:
     change-log: db/changelog.yaml
+
+file:
+  service:
+    baseUrl: http://localhost:8082/api/file

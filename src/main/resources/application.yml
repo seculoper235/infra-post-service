@@ -44,5 +44,9 @@ server:
     min-response-size: 500
   port: 8080
 
+file:
+  service:
+    baseUrl: http://localhost:8082/api/file
+
 logging:
   config: classpath:log4j2-local.xml
