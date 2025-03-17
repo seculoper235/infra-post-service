@@ -78,7 +78,7 @@ public class PostService {
     protected List<PostImageEntity> uploadImages(PostEntity post, List<UUID> images) {
         MappingRequest mappingRequest = new MappingRequest(
                 post.getId().toString(),
-                images.stream().map(UUID::toString).toList()
+                images
         );
 
         List<FileReference> files = fileClient.mapping(mappingRequest);
@@ -87,7 +87,7 @@ public class PostService {
 
         List<PostImageEntity> updateImages = files.stream().map(file ->
                 PostImageEntity.builder()
-                        .uuid(UUID.fromString(file.id()))
+                        .uuid(file.id())
                         .name(file.name())
                         .path(file.path())
                         .post(post)

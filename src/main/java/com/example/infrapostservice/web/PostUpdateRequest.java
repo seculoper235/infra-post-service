@@ -10,6 +10,6 @@ public record PostUpdateRequest(
         UUID id,
         String title,
         String contents,
-        List<String> images
+        List<UUID> images
 ) {
 }

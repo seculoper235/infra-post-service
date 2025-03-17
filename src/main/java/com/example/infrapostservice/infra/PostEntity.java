@@ -63,7 +63,7 @@ public class PostEntity {
 
     public PostInfo toInfo() {
         return new PostInfo(
-                id.toString(),
+                id,
                 title,
                 Option.of(thumbnail),
                 contents.substring(0, 50),
@@ -73,7 +73,7 @@ public class PostEntity {
 
     public PostDetail toDetail() {
         return new PostDetail(
-                id.toString(),
+                id,
                 title,
                 contents,
                 images.stream().map(PostImageEntity::toModel).toList(),

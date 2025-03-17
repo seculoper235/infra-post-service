@@ -32,7 +32,7 @@ public class PostImageEntity {
 
     public PostImage toModel() {
         return new PostImage(
-                id.toString(),
+                uuid,
                 path
         );
     }

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vavr.control.Option;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @JsonSerialize
 public record PostInfo(
-        String id,
+        UUID id,
         String title,
         Option<String> thumbnail,
         String summary,

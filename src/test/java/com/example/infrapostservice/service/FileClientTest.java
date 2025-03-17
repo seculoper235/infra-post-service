@@ -23,6 +23,7 @@ import org.springframework.web.client.RestClient;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -65,8 +66,7 @@ public class FileClientTest {
     @DisplayName("파일 매핑 요청시, 해당 파일이 존재한다면 매핑된 파일 정보를 반환한다")
     public void mapping_file_request_exist_file_return_file_reference() throws JsonProcessingException {
         List<FileReference> expected = List.of(
-                new FileReference("619a3167-428a-43a4-b246-c0462286d962", "text1", "post/image/619a3167-428a-43a4-b246-c0462286d962"),
-                new FileReference("619a3167-428a-43a4-b246-c0462286d963", "text2", "post/image/619a3167-428a-43a4-b246-c0462286d963")
+                new FileReference(UUID.randomUUID(), "text1", "post/image/text1")
         );
         String response = objectMapper.writeValueAsString(expected);
 
@@ -76,7 +76,7 @@ public class FileClientTest {
 
         MappingRequest request = new MappingRequest(
                 "post1",
-                List.of("619a3167-428a-43a4-b246-c0462286d962", "619a3167-428a-43a4-b246-c0462286d963")
+                List.of(UUID.randomUUID())
         );
 
         List<FileReference> result = assertDoesNotThrow(() -> fileClient.mapping(request));
@@ -97,7 +97,7 @@ public class FileClientTest {
 
         MappingRequest request = new MappingRequest(
                 "post1",
-                List.of("619a3167-428a-43a4-b246-c0462286d962", "619a3167-428a-43a4-b246-c0462286d963")
+                List.of(UUID.randomUUID())
         );
 
         assertThrows(ExternalServiceException.class,

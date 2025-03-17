@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @JsonSerialize
 public record PostDetail(
-        String id,
+        UUID id,
         String title,
         String contents,
         List<PostImage> images,

@@ -69,7 +69,7 @@ public class PostServiceTest {
             postService.register(
                     request.title(),
                     request.contents(),
-                    request.images().stream().map(UUID::fromString).toList()
+                    request.images()
             );
         });
     }
@@ -90,7 +90,7 @@ public class PostServiceTest {
                 request.id(),
                 request.title(),
                 request.contents(),
-                request.images().stream().map(UUID::fromString).toList()
+                request.images()
         );
 
         assertTrue(result.isLeft());
@@ -122,7 +122,7 @@ public class PostServiceTest {
                 UUID.randomUUID(),
                 "post1",
                 "This is updated post.",
-                images.stream().map(image -> image.getUuid().toString()).toList()
+                images.stream().map(PostImageEntity::getUuid).toList()
         );
 
         given(postRepository.findById(any())).willReturn(expected);
@@ -133,7 +133,7 @@ public class PostServiceTest {
                         request.id(),
                         request.title(),
                         request.contents(),
-                        request.images().stream().map(UUID::fromString).toList()
+                        request.images()
                 )
         );
     }
@@ -164,7 +164,7 @@ public class PostServiceTest {
                 request.id(),
                 request.title(),
                 request.contents(),
-                request.images().stream().map(UUID::fromString).toList()
+                request.images()
         );
 
         assertTrue(result.isRight());
