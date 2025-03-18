@@ -4,7 +4,9 @@ import com.example.infrapostservice.environment.JpaIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 
+import java.time.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +30,38 @@ public class PostRepositoryTest extends JpaIntegrationTest {
         assertDoesNotThrow(() -> {
             List<PostEntity> result = postRepository.findAllById(params);
             assertThat(result.size()).isEqualTo(0);
+        });
+    }
+
+    @Test
+    @DisplayName("날짜 비교 테스트")
+    void uuid_find_all_test() {
+        List<PostEntity> dummy = List.of(
+                PostEntity.builder()
+                        .title("post1")
+                        .summary("This is post1.")
+                        .contents("This is post1.")
+                        .createdAt(Instant.now())
+                        .build()
+        );
+
+        postRepository.saveAll(dummy);
+
+        LocalDate now = LocalDate.now();
+        LocalDateTime start = now.atStartOfDay();
+        LocalDateTime end = LocalDateTime.of(now, LocalTime.MAX);
+
+        assertDoesNotThrow(() -> {
+            System.out.println("start = " + start.toInstant(ZoneOffset.UTC));
+            System.out.println("end = " + end.toInstant(ZoneOffset.UTC));
+
+            List<PostEntity> result = postRepository.findAllByCreatedAtBetween(
+                    start.toInstant(ZoneOffset.UTC),
+                    end.toInstant(ZoneOffset.UTC),
+                    Sort.by(Sort.Order.asc("createdAt"))
+            );
+
+            assertThat(result.size()).isEqualTo(1);
         });
     }
 

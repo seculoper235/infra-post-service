@@ -8,15 +8,22 @@ import com.example.infrapostservice.infra.PostImageEntity;
 import com.example.infrapostservice.infra.PostImageRepository;
 import com.example.infrapostservice.infra.PostRepository;
 import com.example.infrapostservice.model.PostDetail;
+import com.example.infrapostservice.model.PostInfo;
 import com.example.infrapostservice.web.exception.model.EntityNotFoundException;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,6 +33,20 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
     private final FileClient fileClient;
+
+    public List<PostInfo> find(
+            Optional<LocalDate> localDate
+    ) {
+        LocalDate date = localDate.orElse(LocalDate.now());
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = LocalDateTime.of(date, LocalTime.MAX);
+
+        return postRepository.findAllByCreatedAtBetween(
+                start.toInstant(ZoneOffset.UTC),
+                end.toInstant(ZoneOffset.UTC),
+                Sort.by(Sort.Order.asc("createdAt"))
+        ).stream().map(PostEntity::toInfo).toList();
+    }
 
     public Either<EntityNotFoundException, PostDetail> findById(
             UUID id

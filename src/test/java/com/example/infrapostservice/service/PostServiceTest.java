@@ -7,6 +7,7 @@ import com.example.infrapostservice.infra.PostImageEntity;
 import com.example.infrapostservice.infra.PostImageRepository;
 import com.example.infrapostservice.infra.PostRepository;
 import com.example.infrapostservice.model.PostDetail;
+import com.example.infrapostservice.model.PostInfo;
 import com.example.infrapostservice.web.PostUpdateRequest;
 import com.example.infrapostservice.web.exception.model.EntityNotFoundException;
 import com.example.infrapostservice.web.exception.model.ExternalServiceException;
@@ -19,11 +20,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -43,7 +47,22 @@ public class PostServiceTest {
     @Test
     @DisplayName("포스트 여러건 조회 시, 날짜를 받으면 해당 날짜의 포스트들이 반환된다")
     public void select_post_all_exist_post_return_post() {
-        //
+        LocalDate date = LocalDate.now();
+
+        List<PostEntity> entities = List.of(PostEntity.builder()
+                .id(UUID.randomUUID())
+                .title("post1")
+                .summary("This is post1.")
+                .contents("This is post1.")
+                .createdAt(Instant.now())
+                .build());
+
+        given(postRepository.findAllByCreatedAtBetween(any(), any(), any()))
+                .willReturn(entities);
+
+        List<PostInfo> result = postService.find(Optional.of(date));
+
+        assertThat(result.size()).isEqualTo(1);
     }
 
     @Test
