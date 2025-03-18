@@ -76,6 +76,8 @@ public class PostService {
         newImages.stream().findFirst()
                 .ifPresent(thumbnail -> post.changeThumbnail(thumbnail.getPath()));
 
+        log.info("포스트가 등록되었습니다: {}", post.getId());
+
         return post.toDetail();
     }
 
@@ -125,7 +127,11 @@ public class PostService {
                         .build()
         ).toList();
 
-        return postImageRepository.saveAll(updateImages);
+        List<PostImageEntity> result = postImageRepository.saveAll(updateImages);
+
+        log.info("포스트 이미지가 등록되었습니다: rows {}", result.size());
+
+        return result;
     }
 
     @Transactional
