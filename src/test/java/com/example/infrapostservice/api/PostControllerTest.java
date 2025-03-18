@@ -30,20 +30,26 @@ public class PostControllerTest {
     }
 
     @Test
-    @DisplayName("포스트 조회 시, 날짜가 입력되지 않으면 오늘 기준으로 조회된다")
-    public void find_post_no_date_return_posts_with_now() {
+    @DisplayName("포스트 단일 조회 시, 해당하는 포스트가 존재하지 않으면 404 에러를 반환한다")
+    public void find_post_not_exist_return_404() {
         //
     }
 
     @Test
-    @DisplayName("포스트 수정 시, 파일 매핑에 성공한다면 변경된 포스트 정보가 반환된다")
-    public void update_post_return_updated_post_200() {
+    @DisplayName("포스트 수정 시, 해당하는 포스트가 존재하지 않으면 404 에러를 반환한다")
+    public void update_post_not_exist_return_404() {
         //
     }
 
     @Test
-    @DisplayName("포스트 삭제 시, 파일 삭제에 실패한다면 에러를 던진다")
-    public void delete_post_fail_delete_file_throw_error() {
+    @DisplayName("포스트 수정 시, 파일 매핑에 실패한다면 500 에러를 반환한다")
+    public void update_post_fail_file_mapping_return_500() {
+        //
+    }
+
+    @Test
+    @DisplayName("포스트 삭제 시, 파일 삭제에 실패한다면 500 에러를 반환한다")
+    public void delete_post_fail_delete_file_return_500() {
         //
     }
 }
