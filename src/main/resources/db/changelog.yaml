@@ -85,3 +85,15 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: POST
             validate: true
+  - changeSet:
+      id: addColumn-summary
+      author: DevTeller
+      changes:
+        - addColumn:
+            tableName: POST
+            columns:
+              - column:
+                  name: summary
+                  type: varchar(100)
+                  constraints:
+                    nullable: false

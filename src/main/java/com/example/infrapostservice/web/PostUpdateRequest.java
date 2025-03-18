@@ -9,6 +9,7 @@ import java.util.UUID;
 public record PostUpdateRequest(
         UUID id,
         String title,
+        String summary,
         String contents,
         List<UUID> images
 ) {

@@ -30,6 +30,9 @@ public class PostEntity {
     @Column(length = 100)
     private String thumbnail;
 
+    @Column(nullable = false, length = 100)
+    private String summary;
+
     @Column(nullable = false, length = 3000)
     private String contents;
 
@@ -48,13 +51,10 @@ public class PostEntity {
     @Column(name = "updated_at")
     private Instant updatedAt = Instant.now();
 
-    public void updatePostText(String title, String contents) {
+    public void updatePostText(String title, String summary, String contents) {
         this.title = title;
+        this.summary = summary;
         this.contents = contents;
-    }
-
-    public void updateImages(List<PostImageEntity> images) {
-        this.images = images;
     }
 
     public void changeThumbnail(String thumbnail) {
@@ -66,7 +66,7 @@ public class PostEntity {
                 id,
                 title,
                 Option.of(thumbnail),
-                contents.substring(0, 50),
+                summary,
                 createdAt
         );
     }

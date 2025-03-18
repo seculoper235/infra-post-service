@@ -38,11 +38,13 @@ public class PostService {
     @Transactional
     public PostDetail register(
             String title,
+            String summary,
             String contents,
             List<UUID> images
     ) {
         PostEntity postEntity = PostEntity.builder()
                 .title(title)
+                .summary(summary)
                 .contents(contents)
                 .build();
 
@@ -60,11 +62,12 @@ public class PostService {
     public Either<EntityNotFoundException, PostDetail> update(
             UUID id,
             String title,
+            String summary,
             String contents,
             List<UUID> images
     ) {
         Either<EntityNotFoundException, PostEntity> postEntity = Option.ofOptional(postRepository.findById(id))
-                .peek(post -> post.updatePostText(title, contents))
+                .peek(post -> post.updatePostText(title, summary, contents))
                 .toEither(new EntityNotFoundException("존재하지 않는 포스트입니다: " + id));
 
         return postEntity.peek(post -> {

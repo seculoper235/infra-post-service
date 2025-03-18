@@ -45,6 +45,7 @@ public class PostRepositoryTest extends JpaIntegrationTest {
 
         PostEntity entity = PostEntity.builder()
                 .title("post1")
+                .summary("This is post1.")
                 .contents("This is post1.")
                 .images(List.of(newImage))
                 .build();

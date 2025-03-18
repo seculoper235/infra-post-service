@@ -67,6 +67,7 @@ public class PostServiceTest {
         Optional<PostEntity> entity = Optional.of(PostEntity.builder()
                 .id(id)
                 .title("post1")
+                .summary("This is post1.")
                 .contents("This is post1.")
                 .images(Collections.emptyList())
                 .build());
@@ -87,6 +88,7 @@ public class PostServiceTest {
         PostEntity expected = PostEntity.builder()
                 .id(UUID.randomUUID())
                 .title("post1")
+                .summary("This is post1.")
                 .contents("This is post1.")
                 .images(expectedImages)
                 .build();
@@ -94,6 +96,7 @@ public class PostServiceTest {
         PostUpdateRequest request = new PostUpdateRequest(
                 UUID.randomUUID(),
                 "post1",
+                "This is updated post.",
                 "This is updated post.",
                 Collections.emptyList()
         );
@@ -106,6 +109,7 @@ public class PostServiceTest {
         assertDoesNotThrow(() -> {
             postService.register(
                     request.title(),
+                    request.summary(),
                     request.contents(),
                     request.images()
             );
@@ -119,6 +123,7 @@ public class PostServiceTest {
                 UUID.randomUUID(),
                 "post1",
                 "This is updated post.",
+                "This is updated post.",
                 Collections.emptyList()
         );
 
@@ -127,6 +132,7 @@ public class PostServiceTest {
         Either<EntityNotFoundException, PostDetail> result = postService.update(
                 request.id(),
                 request.title(),
+                request.summary(),
                 request.contents(),
                 request.images()
         );
@@ -143,6 +149,7 @@ public class PostServiceTest {
         Optional<PostEntity> expected = Optional.of(PostEntity.builder()
                 .id(UUID.randomUUID())
                 .title("post1")
+                .summary("This is post1.")
                 .contents("This is post1.")
                 .build());
 
@@ -160,6 +167,7 @@ public class PostServiceTest {
                 UUID.randomUUID(),
                 "post1",
                 "This is updated post.",
+                "This is updated post.",
                 images.stream().map(PostImageEntity::getUuid).toList()
         );
 
@@ -170,6 +178,7 @@ public class PostServiceTest {
                 () -> postService.update(
                         request.id(),
                         request.title(),
+                        request.summary(),
                         request.contents(),
                         request.images()
                 )
@@ -184,6 +193,7 @@ public class PostServiceTest {
         Optional<PostEntity> expected = Optional.of(PostEntity.builder()
                 .id(UUID.randomUUID())
                 .title("post1")
+                .summary("This is post1.")
                 .contents("This is post1.")
                 .images(Collections.emptyList())
                 .build());
@@ -191,6 +201,7 @@ public class PostServiceTest {
         PostUpdateRequest request = new PostUpdateRequest(
                 UUID.randomUUID(),
                 "post1",
+                "This is updated post.",
                 "This is updated post.",
                 Collections.emptyList()
         );
@@ -201,6 +212,7 @@ public class PostServiceTest {
         Either<EntityNotFoundException, PostDetail> result = postService.update(
                 request.id(),
                 request.title(),
+                request.summary(),
                 request.contents(),
                 request.images()
         );
