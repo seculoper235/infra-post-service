@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql, h2
+      name: function.now
+      value: now()
+  - property:
+      dbms: postgresql, h2
+      name: function.now
+      value: now()
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: create-post
+      author: DevTeller
+      changes:
+        - createTable:
+            tableName: POST
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: thumbnail
+                  type: varchar(100)
+              - column:
+                  name: contents
+                  type: varchar(3000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValue: ${function.now}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: datetime
+                  defaultValue: ${function.now}
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: create-post-image
+      author: DevTeller
+      changes:
+        - createTable:
+            tableName: POST_IMAGE
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: uuid
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: path
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: post_id
+                  type: uuid
+        - addForeignKeyConstraint:
+            baseColumnNames: post_id
+            baseTableName: POST_IMAGE
+            constraintName: PostImage_post_fk
+            onDelete: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: POST
+            validate: true
+  - changeSet:
+      id: addColumn-summary
+      author: DevTeller
+      changes:
+        - addColumn:
+            tableName: POST
+            columns:
+              - column:
+                  name: summary
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
