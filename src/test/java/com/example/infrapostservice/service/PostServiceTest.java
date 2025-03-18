@@ -41,6 +41,44 @@ public class PostServiceTest {
     private final FileClient fileClient = mock(FileClient.class);
 
     @Test
+    @DisplayName("포스트 여러건 조회 시, 날짜를 받으면 해당 날짜의 포스트들이 반환된다")
+    public void select_post_all_exist_post_return_post() {
+        //
+    }
+
+    @Test
+    @DisplayName("포스트 단일 조회 시, 해당하는 포스트가 없다면 에러를 던진다")
+    public void select_post_one_not_exist_post_throw_entity_not_found_exception() {
+        UUID id = UUID.randomUUID();
+        given(postRepository.findById(id)).willReturn(Optional.empty());
+
+        Either<EntityNotFoundException, PostDetail> result = postService.findById(id);
+
+        assertTrue(result.isLeft());
+        assertThrows(EntityNotFoundException.class,
+                () -> result.getOrElseThrow(it -> it));
+    }
+
+    @Test
+    @DisplayName("포스트 단일 조회 시, 해당하는 포스트가 있다면 포스트 정보가 반환된다")
+    public void select_post_one_exist_post_return_post() {
+        UUID id = UUID.randomUUID();
+
+        Optional<PostEntity> entity = Optional.of(PostEntity.builder()
+                .id(id)
+                .title("post1")
+                .contents("This is post1.")
+                .images(Collections.emptyList())
+                .build());
+
+        given(postRepository.findById(id)).willReturn(entity);
+
+        Either<EntityNotFoundException, PostDetail> result = postService.findById(id);
+
+        assertTrue(result.isRight());
+    }
+
+    @Test
     @DisplayName("포스트 등록 시, 파일 매핑에 성공한다면 포스트 정보가 반환된다")
     public void create_post_success_file_mapping_return_new_post_files() {
         List<PostImageEntity> expectedImages = Collections.emptyList();

@@ -27,6 +27,14 @@ public class PostService {
     private final PostImageRepository postImageRepository;
     private final FileClient fileClient;
 
+    public Either<EntityNotFoundException, PostDetail> findById(
+            UUID id
+    ) {
+        return Option.ofOptional(postRepository.findById(id))
+                .map(PostEntity::toDetail)
+                .toEither(new EntityNotFoundException("존재하지 않는 포스트입니다: " + id));
+    }
+
     @Transactional
     public PostDetail register(
             String title,
@@ -42,7 +50,6 @@ public class PostService {
 
         List<PostImageEntity> newImages = uploadImages(post, images);
 
-        post.updateImages(newImages);
         newImages.stream().findFirst()
                 .ifPresent(thumbnail -> post.changeThumbnail(thumbnail.getPath()));
 
