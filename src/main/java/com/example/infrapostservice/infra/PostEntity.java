@@ -2,7 +2,6 @@ package com.example.infrapostservice.infra;
 
 import com.example.infrapostservice.model.PostDetail;
 import com.example.infrapostservice.model.PostInfo;
-import io.vavr.control.Option;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -65,7 +65,7 @@ public class PostEntity {
         return new PostInfo(
                 id,
                 title,
-                Option.of(thumbnail),
+                Optional.ofNullable(thumbnail),
                 summary,
                 createdAt
         );
