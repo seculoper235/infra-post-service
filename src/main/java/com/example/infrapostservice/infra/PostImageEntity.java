@@ -33,6 +33,7 @@ public class PostImageEntity {
     public PostImage toModel() {
         return new PostImage(
                 uuid,
+                name,
                 path
         );
     }
