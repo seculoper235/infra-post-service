@@ -2,7 +2,6 @@ package com.example.infrapostservice.infra;
 
 import com.example.infrapostservice.model.PostDetail;
 import com.example.infrapostservice.model.PostInfo;
-import io.vavr.control.Option;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -38,7 +38,7 @@ public class PostEntity {
 
     @Builder.Default
     @Column(nullable = false)
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<PostImageEntity> images = Collections.emptyList();
 
     @CreationTimestamp
@@ -65,7 +65,7 @@ public class PostEntity {
         return new PostInfo(
                 id,
                 title,
-                Option.of(thumbnail),
+                Optional.ofNullable(thumbnail),
                 summary,
                 createdAt
         );
