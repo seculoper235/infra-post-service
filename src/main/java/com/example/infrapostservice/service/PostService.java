@@ -96,7 +96,8 @@ public class PostService {
         return postEntity.peek(post -> {
             boolean notModify = post.getImages().stream()
                     .map(PostImageEntity::getUuid)
-                    .equals(images.stream());
+                    .toList()
+                    .equals(images);
 
             if (!notModify) {
                 List<PostImageEntity> updateImages = uploadImages(post, images);
@@ -134,7 +135,6 @@ public class PostService {
         return result;
     }
 
-    @Transactional
     public void delete(UUID id) {
         postRepository.deleteById(id);
         fileClient.delete(id.toString());

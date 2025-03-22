@@ -38,7 +38,7 @@ public class PostEntity {
 
     @Builder.Default
     @Column(nullable = false)
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<PostImageEntity> images = Collections.emptyList();
 
     @CreationTimestamp
