@@ -6,7 +6,8 @@ import java.util.UUID;
 
 @JsonSerialize
 public record PostImage(
-        UUID uuid,
+        UUID id,
+        String name,
         String path
 ) {
 }
